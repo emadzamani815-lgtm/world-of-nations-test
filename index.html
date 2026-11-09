@@ -5,7 +5,204 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>World of Nations: 1936</title>
-<style>
+<
+/* ===== WORLD OF NATIONS: DARK VINTAGE THEME ===== */
+
+:root {
+  --bg-main: #171914;
+  --bg-panel: #25291f;
+  --bg-panel2: #303528;
+  --gold: #aa8c56;
+  --gold-light: #d0bd91;
+  --text-main: #d8cfb9;
+  --text-muted: #9c967f;
+  --border-old: #62543a;
+}
+
+html {
+  background: var(--bg-main);
+}
+
+body {
+  background:
+    radial-gradient(ellipse at center,
+      rgba(120, 104, 65, .13),
+      transparent 75%),
+    linear-gradient(135deg, #272a20, #11130f 75%) !important;
+  background-attachment: fixed;
+  color: var(--text-main) !important;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(210,190,140,.018) 0px,
+      transparent 2px,
+      transparent 4px
+    ),
+    radial-gradient(
+      ellipse at center,
+      transparent 40%,
+      rgba(0,0,0,.48) 100%
+    );
+}
+
+header {
+  background: linear-gradient(135deg,#343729,#171914) !important;
+  border-bottom: 2px solid var(--gold) !important;
+  box-shadow: 0 5px 20px #0009;
+}
+
+header h1,
+h2,
+h3 {
+  color: var(--gold-light) !important;
+}
+
+header p,
+.small {
+  color: var(--text-muted) !important;
+}
+
+.card {
+  background: linear-gradient(145deg,#292d23,#1d211a) !important;
+  border: 1px solid var(--border-old) !important;
+  border-radius: 5px !important;
+  box-shadow: 0 6px 18px #0006;
+}
+
+.stat {
+  background: #191d17 !important;
+  border: 1px solid #514832;
+  border-radius: 5px !important;
+  color: var(--text-main);
+}
+
+.stat strong {
+  color: var(--gold-light) !important;
+}
+
+button {
+  background: linear-gradient(145deg,#76613c,#493d29) !important;
+  color: #f0e4c8 !important;
+  border: 1px solid #a58a55 !important;
+  border-radius: 4px !important;
+  transition: .2s;
+}
+
+button:hover {
+  filter: brightness(1.2);
+}
+
+button.secondary,
+.nav button {
+  background: #303528 !important;
+  color: var(--text-main) !important;
+  border: 1px solid #514b37 !important;
+}
+
+.nav button.active {
+  background: #806b43 !important;
+  color: #fff1d1 !important;
+}
+
+button.danger {
+  background: #63352e !important;
+  border-color: #9b5547 !important;
+}
+
+input, select {
+  background: #191d17 !important;
+  color: var(--text-main) !important;
+  border: 1px solid var(--border-old) !important;
+  border-radius: 4px !important;
+}
+
+.country {
+  background: #292d23 !important;
+  border: 1px solid #65583c !important;
+  border-radius: 5px !important;
+  color: var(--text-main);
+}
+
+.country:hover {
+  border-color: var(--gold-light) !important;
+  background: #383b2c !important;
+}
+
+.row {
+  border-bottom-color: #514832 !important;
+}
+
+#mapVisual {
+  background: #25291e !important;
+  border: 1px solid var(--border-old);
+  filter: sepia(.3) brightness(.8);
+}
+
+.land {
+  background: #737653 !important;
+}
+
+.mapLabel {
+  background: #1c2119dd !important;
+  color: var(--gold-light) !important;
+  border: 1px solid #65583c;
+}
+
+footer {
+  color: #77725f !important;
+}
+
+/* Country image header */
+.country-hero {
+  height: 190px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--gold);
+  margin-bottom: 16px;
+  background:
+    linear-gradient(0deg,#171914 0%,transparent 75%),
+    linear-gradient(135deg,#494632,#20251c);
+  background-position: center;
+  background-size: cover;
+}
+
+.country-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    0deg,
+    rgba(15,17,13,.9),
+    transparent 75%
+  );
+}
+
+.country-hero-title {
+  position: absolute;
+  bottom: 12px;
+  right: 15px;
+  z-index: 2;
+  color: #e5d3a9;
+  font-size: 23px;
+  font-weight: bold;
+  text-shadow: 0 2px 5px #000;
+}
+
+@media(max-width:500px) {
+  .country-hero {
+    height: 145px;
+  }
+}
+  >
 *{box-sizing:border-box}
 body{margin:0;background:#101923;color:#edf2f7;font-family:Tahoma,Arial,sans-serif}
 header{background:#172638;padding:18px;text-align:center;border-bottom:2px solid #b58b45}
