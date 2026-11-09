@@ -1,0 +1,567 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World of Nations: 1936</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101923;color:#edf2f7;font-family:Tahoma,Arial,sans-serif}
+header{background:#172638;padding:18px;text-align:center;border-bottom:2px solid #b58b45}
+header h1{margin:0;color:#e9c477;font-size:23px}
+header p{color:#aebdca;font-size:12px}
+.container{max-width:850px;margin:auto;padding:14px}
+.card{background:#1b2a3a;border:1px solid #34495c;border-radius:12px;padding:15px;margin-bottom:13px}
+h2,h3{color:#e9c477}
+h2{font-size:20px}
+h3{font-size:16px;margin-top:5px}
+p{line-height:1.8}
+button,select,input{font-family:inherit}
+button{background:#b58b45;color:#151c24;border:0;border-radius:8px;padding:11px 13px;font-weight:bold;cursor:pointer;margin:4px}
+button.secondary{background:#354c61;color:white}
+button.danger{background:#9b4141;color:white}
+button:disabled{opacity:.4}
+input,select{background:#101923;color:white;border:1px solid #52677b;border-radius:8px;padding:11px;width:100%;margin:5px 0}
+.hidden{display:none!important}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.stat{background:#101923;padding:12px;border-radius:9px;text-align:center}
+.stat strong{display:block;color:#f1cb7b;font-size:19px;margin-top:7px}
+.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:13px}
+.nav button{background:#293e52;color:white;font-size:13px}
+.nav button.active{background:#b58b45;color:#151c24}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid #35495c;padding:10px 0;flex-wrap:wrap}
+.row:last-child{border:0}
+.small{font-size:12px;color:#aab9c6}
+.good{color:#70d69b}
+.bad{color:#ff8989}
+.warning{color:#f1cb7b}
+.country{background:#24394d;border:1px solid #52677b;border-radius:9px;padding:13px;text-align:center;cursor:pointer}
+.country:hover{border-color:#e9c477}
+#mapVisual{height:210px;background:#142e42;border-radius:12px;position:relative;overflow:hidden}
+.land{position:absolute;background:#567b69;opacity:.85;border-radius:48% 35% 45% 30%;transform:rotate(-15deg)}
+.land.one{width:35%;height:42%;top:18%;left:8%}
+.land.two{width:18%;height:27%;top:49%;left:25%;transform:rotate(20deg)}
+.land.three{width:27%;height:30%;top:18%;left:43%;transform:rotate(12deg)}
+.land.four{width:35%;height:38%;top:48%;left:57%;transform:rotate(-12deg)}
+.mapLabel{position:absolute;font-size:12px;color:white;background:#172638cc;padding:5px 8px;border-radius:5px}
+footer{text-align:center;color:#718496;font-size:11px;padding:20px}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🌍 WORLD OF NATIONS</h1>
+<p>1936 | بازی استراتژیک مدیریت کشورها</p>
+</header>
+
+<div class="container">
+
+<section id="selection">
+<div class="card">
+<h2>🏛️ انتخاب کشور</h2>
+<p>کشور خود را انتخاب کن و وارد جهان ۱۹۳۶ شو.</p>
+<div class="grid" id="countryChoices"></div>
+</div>
+</section>
+
+<section id="game" class="hidden">
+<div class="card">
+<div class="row">
+<div>
+<h2 id="countryTitle">آلمان</h2>
+<div class="small" id="dateDisplay">۱ ژانویه ۱۹۳۶</div>
+</div>
+<div id="countryFlag" style="font-size:38px">🇩🇪</div>
+</div>
+<div class="grid">
+<div class="stat">💰 خزانه<strong id="money">0</strong></div>
+<div class="stat">📈 درآمد روزانه<strong id="income">0</strong></div>
+<div class="stat">🪖 قدرت نظامی<strong id="power">0</strong></div>
+<div class="stat">👥 نیروی انسانی<strong id="manpower">0</strong></div>
+</div>
+</div>
+
+<div class="nav">
+<button class="active" onclick="showPage('home',this)">🏛️ کشور</button>
+<button onclick="showPage('economy',this)">💰 اقتصاد</button>
+<button onclick="showPage('army',this)">🪖 ارتش</button>
+<button onclick="showPage('diplomacy',this)">🤝 دیپلماسی</button>
+<button onclick="showPage('map',this)">🌍 نقشه</button>
+<button onclick="showPage('news',this)">📰 اخبار</button>
+</div>
+
+<section id="home" class="page">
+<div class="card">
+<h3>🏛️ گزارش ملی</h3>
+<p id="nationalReport">به جهان ۱۹۳۶ خوش آمدید.</p>
+</div>
+<div class="card">
+<h3>📦 منابع کشور</h3>
+<div class="grid">
+<div class="stat">🛢️ نفت<strong id="oil">0</strong></div>
+<div class="stat">⛓️ آهن<strong id="iron">0</strong></div>
+<div class="stat">⚫ زغال‌سنگ<strong id="coal">0</strong></div>
+<div class="stat">🌾 گندم<strong id="wheat">0</strong></div>
+<div class="stat">💎 طلا<strong id="gold">0</strong></div>
+<div class="stat">🏭 کارخانه<strong id="factories">0</strong></div>
+</div>
+</div>
+</section>
+
+<section id="economy" class="page hidden">
+<div class="card">
+<h3>💰 وزارت اقتصاد</h3>
+<p>مالیات روزانه: <strong id="taxValue">15</strong> از ۳۰</p>
+<input type="range" min="5" max="30" value="15" id="tax" oninput="changeTax(this.value)">
+<p class="small">مالیات بیشتر درآمد را افزایش می‌دهد، اما رضایت عمومی را کاهش می‌دهد.</p>
+<button onclick="buyFactory()">🏭 خرید کارخانه (۵۰۰٬۰۰۰ دلار)</button>
+</div>
+<div class="card">
+<h3>📊 تولید منابع</h3>
+<p>نفت: روزانه ۲۰ واحد</p>
+<p>آهن: روزانه ۳۵ واحد</p>
+<p>زغال‌سنگ: روزانه ۵۰ واحد</p>
+<p>گندم: روزانه ۶۰ واحد</p>
+<p>طلا: روزانه ۵ واحد</p>
+</div>
+</section>
+
+<section id="army" class="page hidden">
+<div class="card">
+<h3>🪖 وزارت دفاع</h3>
+<div id="armyStats"></div>
+</div>
+<div class="card">
+<h3>🏗️ استخدام و خرید تجهیزات</h3>
+<button onclick="recruit()">👥 استخدام ۱۰۰ سرباز | ۴۰٬۰۰۰ دلار</button>
+<button onclick="buyUnit('tanks',60000,20)">🚜 تانک | ۶۰٬۰۰۰ دلار + ۲۰ آهن</button>
+<button onclick="buyUnit('fighters',90000,25)">✈️ جنگنده | ۹۰٬۰۰۰ دلار + ۲۵ آهن</button>
+<button onclick="buyUnit('bombers',120000,35)">💣 بمب‌افکن | ۱۲۰٬۰۰۰ دلار + ۳۵ آهن</button>
+<button onclick="buyUnit('ships',180000,50)">🚢 ناو | ۱۸۰٬۰۰۰ دلار + ۵۰ آهن</button>
+</div>
+</section>
+
+<section id="diplomacy" class="page hidden">
+<div class="card">
+<h3>🤝 وزارت امور خارجه</h3>
+<p>روابط کشورها را مدیریت کن، اتحاد تشکیل بده و پیمان‌های بین‌المللی ببند.</p>
+<div class="grid">
+<div class="stat">🌐 اعضای اتحاد<strong id="allianceCount">۰</strong></div>
+<div class="stat">📜 پیمان‌های فعال<strong id="treatyCount">۰</strong></div>
+</div>
+</div>
+
+<div class="card">
+<h3>🏛️ تأسیس اتحاد</h3>
+<input id="allianceName" maxlength="30" placeholder="نام اتحاد بین‌المللی">
+<button onclick="createAlliance()">تأسیس اتحاد</button>
+<div id="allianceStatus"></div>
+</div>
+
+<div class="card">
+<h3>📨 دعوت به اتحاد</h3>
+<select id="inviteTarget"></select>
+<button onclick="inviteCountry()">ارسال دعوت‌نامه</button>
+</div>
+
+<div class="card">
+<h3>🌍 روابط بین‌المللی</h3>
+<div id="relations"></div>
+</div>
+
+<div class="card">
+<h3>📜 قراردادها و پیمان‌ها</h3>
+<select id="treatyTarget"></select>
+<button onclick="makeTreaty('trade')">📦 قرارداد تجاری</button>
+<button onclick="makeTreaty('peace')">🕊️ پیمان عدم تجاوز</button>
+<div id="treatyList"></div>
+</div>
+
+<div class="card">
+<h3>⚔️ وضعیت جنگ</h3>
+<select id="warTarget"></select>
+<button class="danger" onclick="declareWar()">اعلان جنگ</button>
+<div id="warList"></div>
+</div>
+</section>
+
+<section id="map" class="page hidden">
+<div class="card">
+<h3>🌍 نقشه نمایشی جهان</h3>
+<div id="mapVisual">
+<div class="land one"></div>
+<div class="land two"></div>
+<div class="land three"></div>
+<div class="land four"></div>
+<div class="mapLabel" style="top:24%;left:15%">آمریکا</div>
+<div class="mapLabel" style="top:30%;left:48%">اروپا</div>
+<div class="mapLabel" style="top:68%;left:68%">آسیا</div>
+<div class="mapLabel" style="top:78%;left:35%">آفریقا</div>
+</div>
+<p class="small">این نقشه در این نسخه نمایشی است و مرزهای دقیق تاریخی سال ۱۹۳۶ را نشان نمی‌دهد.</p>
+</div>
+<div class="card">
+<h3>🏳️ کشورهای جهان</h3>
+<div class="grid" id="mapCountries"></div>
+</div>
+</section>
+
+<section id="news" class="page hidden">
+<div class="card">
+<h3>📰 خبرگزاری جهانی</h3>
+<div id="newsList"></div>
+</div>
+</section>
+
+<div class="card">
+<button class="secondary" onclick="returnToSelection()">🔄 تغییر کشور</button>
+<button class="danger" onclick="resetGame()">پاک کردن اطلاعات این بازی</button>
+</div>
+</section>
+
+</div>
+<footer>WORLD OF NATIONS: 1936 | نسخه آزمایشی محلی</footer>
+
+<script>
+const countries=[
+{name:"آلمان",flag:"🇩🇪"},
+{name:"بریتانیا",flag:"🇬🇧"},
+{name:"فرانسه",flag:"🇫🇷"},
+{name:"شوروی",flag:"🇷🇺"},
+{name:"آمریکا",flag:"🇺🇸"},
+{name:"ژاپن",flag:"🇯🇵"},
+{name:"ایتالیا",flag:"🇮🇹"},
+{name:"لهستان",flag:"🇵🇱"}
+];
+
+let selected="";
+let data=null;
+let world=null;
+const fmt=n=>Math.floor(n).toLocaleString("en-US");
+
+function initialCountry(){
+return {
+treasury:2500000,manpower:20000,
+infantry:500,tanks:10,fighters:5,bombers:2,ships:2,
+oil:500,iron:500,coal:700,wheat:800,gold:100,
+factories:2,tax:15,lastUpdate:Date.now(),
+worldStart:Date.now()
+};
+}
+
+function loadWorld(){
+try{
+world=JSON.parse(localStorage.getItem("won1936_world"));
+}catch(e){world=null}
+if(!world)world={
+relations:{},alliances:[],treaties:[],wars:[],news:[]
+};
+saveWorld();
+}
+
+function saveWorld(){
+localStorage.setItem("won1936_world",JSON.stringify(world));
+}
+
+function saveCountry(){
+if(!selected||!data)return;
+localStorage.setItem("won1936_country_"+selected,JSON.stringify(data));
+}
+
+function loadCountry(name){
+selected=name;
+try{
+data=JSON.parse(localStorage.getItem("won1936_country_"+name));
+}catch(e){data=null}
+if(!data)data=initialCountry();
+data.lastUpdate=data.lastUpdate||Date.now();
+saveCountry();
+calculateTime();
+}
+
+function calculateTime(){
+let now=Date.now();
+let elapsed=Math.max(0,now-data.lastUpdate);
+let days=elapsed/86400000;
+if(days>0){
+let income=200000*(data.tax/15);
+let upkeep=data.infantry*10+data.tanks*100+data.fighters*150+data.bombers*180+data.ships*250;
+data.treasury+=Math.max(0,(income-upkeep-50000)*days);
+data.oil+=20*days;
+data.iron+=35*days;
+data.coal+=50*days;
+data.wheat+=60*days;
+data.gold+=5*days;
+data.lastUpdate=now;
+}
+}
+
+function gameDate(){
+let days=Math.floor((Date.now()-data.worldStart)/86400000);
+let date=new Date(Date.UTC(1936,0,1+days));
+return date.toLocaleDateString("fa-IR",{year:"numeric",month:"long",day:"numeric",timeZone:"UTC"});
+}
+
+function enterCountry(name){
+loadCountry(name);
+document.getElementById("selection").classList.add("hidden");
+document.getElementById("game").classList.remove("hidden");
+render();
+}
+
+function render(){
+calculateTime();
+saveCountry();
+document.getElementById("countryTitle").innerText=selected;
+document.getElementById("countryFlag").innerText=countries.find(c=>c.name===selected).flag;
+document.getElementById("dateDisplay").innerText=gameDate();
+document.getElementById("money").innerText="$"+fmt(data.treasury);
+document.getElementById("income").innerText="$"+fmt(200000*(data.tax/15));
+document.getElementById("power").innerText=fmt(power());
+document.getElementById("manpower").innerText=fmt(data.manpower);
+["oil","iron","coal","wheat","gold","factories"].forEach(k=>{
+document.getElementById(k).innerText=fmt(data[k]);
+});
+document.getElementById("tax").value=data.tax;
+document.getElementById("taxValue").innerText=data.tax;
+document.getElementById("nationalReport").innerText=
+selected+" در حال اداره کشور است. درآمد و منابع به مرور زمان تولید می‌شوند.";
+renderArmy();
+renderDiplomacy();
+renderNews();
+}
+
+function power(){
+return data.infantry+data.tanks*50+data.fighters*80+data.bombers*100+data.ships*150;
+}
+
+function showPage(id,btn){
+document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
+document.getElementById(id).classList.remove("hidden");
+document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+render();
+}
+
+function changeTax(v){
+data.tax=Number(v);
+document.getElementById("taxValue").innerText=v;
+saveCountry();
+render();
+}
+
+function buyFactory(){
+if(data.treasury<500000)return alert("خزانه کافی نیست.");
+data.treasury-=500000;
+data.factories++;
+saveCountry();render();
+}
+
+function recruit(){
+if(data.treasury<40000||data.manpower<100)return alert("پول یا نیروی انسانی کافی نیست.");
+data.treasury-=40000;
+data.manpower-=100;
+data.infantry+=100;
+saveCountry();render();
+}
+
+function buyUnit(type,cost,iron){
+if(data.treasury<cost||data.iron<iron)return alert("پول یا آهن کافی نیست.");
+data.treasury-=cost;
+data.iron-=iron;
+data[type]++;
+saveCountry();render();
+}
+
+function renderArmy(){
+document.getElementById("armyStats").innerHTML=`
+<div class="row">پیاده‌نظام <b>${fmt(data.infantry)}</b></div>
+<div class="row">تانک <b>${fmt(data.tanks)}</b></div>
+<div class="row">جنگنده <b>${fmt(data.fighters)}</b></div>
+<div class="row">بمب‌افکن <b>${fmt(data.bombers)}</b></div>
+<div class="row">ناو <b>${fmt(data.ships)}</b></div>
+<div class="row">هزینه نگهداری روزانه <b>$${fmt(data.infantry*10+data.tanks*100+data.fighters*150+data.bombers*180+data.ships*250)}</b></div>`;
+}
+
+function relationKey(a,b){return [a,b].sort().join("|")}
+function relation(a,b){
+let key=relationKey(a,b);
+if(world.relations[key]===undefined)world.relations[key]=40;
+return world.relations[key];
+}
+function setRelation(a,b,v){
+world.relations[relationKey(a,b)]=Math.max(0,Math.min(100,v));
+}
+
+function myAlliance(){
+return world.alliances.find(a=>a.members.includes(selected));
+}
+
+function createAlliance(){
+if(myAlliance())return alert("کشور شما از قبل عضو یک اتحاد است.");
+let name=document.getElementById("allianceName").value.trim();
+if(!name)return alert("نام اتحاد را وارد کنید.");
+world.alliances.push({name,leader:selected,members:[selected]});
+addNews("اتحاد "+name+" به رهبری "+selected+" تأسیس شد.");
+document.getElementById("allianceName").value="";
+saveWorld();renderDiplomacy();
+}
+
+function inviteCountry(){
+let target=document.getElementById("inviteTarget").value;
+let alliance=myAlliance();
+if(!alliance)return alert("ابتدا یک اتحاد تأسیس کنید.");
+if(alliance.leader!==selected)return alert("فقط رهبر اتحاد می‌تواند دعوت کند.");
+if(alliance.members.includes(target))return alert("این کشور عضو اتحاد است.");
+if(world.alliances.some(a=>a.members.includes(target)))return alert("این کشور عضو اتحاد دیگری است.");
+if(relation(selected,target)<55)return alert("روابط باید حداقل ۵۵ باشد.");
+alliance.members.push(target);
+addNews(target+" به اتحاد "+alliance.name+" پیوست.");
+saveWorld();renderDiplomacy();
+}
+
+function makeTreaty(type){
+let target=document.getElementById("treatyTarget").value;
+if(target===selected)return alert("کشور خودتان را انتخاب نکنید.");
+if(world.wars.some(w=>w.a===selected&&w.b===target||w.a===target&&w.b===selected))
+return alert("ابتدا باید جنگ پایان یابد.");
+let existing=world.treaties.find(t=>t.a===selected&&t.b===target&&t.type===type||t.a===target&&t.b===selected&&t.type===type);
+if(existing)return alert("این پیمان از قبل وجود دارد.");
+world.treaties.push({a:selected,b:target,type});
+setRelation(selected,target,relation(selected,target)+10);
+addNews((type==="trade"?"قرارداد تجاری":"پیمان عدم تجاوز")+" میان "+selected+" و "+target+" برقرار شد.");
+saveWorld();renderDiplomacy();
+}
+
+function declareWar(){
+let target=document.getElementById("warTarget").value;
+if(target===selected)return alert("نمی‌توانید به کشور خودتان اعلان جنگ کنید.");
+if(world.treaties.some(t=>t.type==="peace"&&(t.a===selected&&t.b===target||t.a===target&&t.b===selected)))
+return alert("بین دو کشور پیمان عدم تجاوز برقرار است. ابتدا باید وضعیت پیمان حل شود.");
+if(world.wars.some(w=>w.a===selected&&w.b===target||w.a===target&&w.b===selected))
+return alert("این دو کشور در حال جنگ هستند.");
+if(!confirm("آیا از اعلان جنگ به "+target+" مطمئن هستید؟"))return;
+world.wars.push({a:selected,b:target});
+setRelation(selected,target,relation(selected,target)-30);
+addNews(selected+" علیه "+target+" اعلان جنگ کرد.");
+saveWorld();renderDiplomacy();
+}
+
+function makePeace(target){
+world.wars=world.wars.filter(w=>!(w.a===selected&&w.b===target||w.a===target&&w.b===selected));
+setRelation(selected,target,relation(selected,target)+15);
+addNews("جنگ میان "+selected+" و "+target+" پایان یافت.");
+saveWorld();renderDiplomacy();
+}
+
+function renderDiplomacy(){
+let others=countries.filter(c=>c.name!==selected);
+["inviteTarget","treatyTarget","warTarget"].forEach(id=>{
+let el=document.getElementById(id);
+let old=el.value;
+el.innerHTML=others.map(c=>`<option value="${c.name}">${c.flag} ${c.name}</option>`).join("");
+if(others.some(c=>c.name===old))el.value=old;
+});
+
+let alliance=myAlliance();
+document.getElementById("allianceCount").innerText=alliance?alliance.members.length:0;
+document.getElementById("treatyCount").innerText=world.treaties.filter(t=>t.a===selected||t.b===selected).length;
+
+document.getElementById("allianceStatus").innerHTML=alliance?
+`<p>🌐 ${alliance.name}</p><p>رهبر: ${alliance.leader}</p><p>اعضا: ${alliance.members.join("، ")}</p>
+<button class="danger" onclick="leaveAlliance()">خروج از اتحاد</button>`:
+"<p>هنوز عضو هیچ اتحادی نیستید.</p>";
+
+document.getElementById("relations").innerHTML=others.map(c=>`
+<div class="row">
+<span>${c.flag} ${c.name}</span>
+<b>${relation(selected,c.name)}٪</b>
+<button class="secondary" onclick="improveRelation('${c.name}')">بهبود روابط ۲۰٬۰۰۰$</button>
+</div>`).join("");
+
+document.getElementById("treatyList").innerHTML=
+world.treaties.filter(t=>t.a===selected||t.b===selected).map(t=>
+`<p>${t.type==="trade"?"📦 قرارداد تجاری":"🕊️ پیمان عدم تجاوز"} با ${t.a===selected?t.b:t.a}</p>`
+).join("")||"<p>پیمان فعالی ندارید.</p>";
+
+document.getElementById("warList").innerHTML=
+world.wars.filter(w=>w.a===selected||w.b===selected).map(w=>{
+let enemy=w.a===selected?w.b:w.a;
+return `<div class="row"><span>⚔️ جنگ با ${enemy}</span><button class="secondary" onclick="makePeace('${enemy}')">پیشنهاد صلح</button></div>`;
+}).join("")||"<p>کشور شما در جنگ نیست.</p>";
+}
+
+function improveRelation(target){
+if(data.treasury<20000)return alert("خزانه کافی نیست.");
+if(relation(selected,target)>=100)return alert("روابط در بالاترین سطح است.");
+data.treasury-=20000;
+setRelation(selected,target,relation(selected,target)+15);
+addNews("روابط دیپلماتیک "+selected+" و "+target+" بهبود یافت.");
+saveCountry();saveWorld();render();
+}
+
+function leaveAlliance(){
+let a=myAlliance();
+if(!a)return;
+if(a.leader===selected){
+if(!confirm("با خروج رهبر، اتحاد منحل می‌شود. ادامه می‌دهید؟"))return;
+world.alliances=world.alliances.filter(x=>x!==a);
+addNews("اتحاد "+a.name+" منحل شد.");
+}else{
+a.members=a.members.filter(x=>x!==selected);
+addNews(selected+" از اتحاد "+a.name+" خارج شد.");
+}
+saveWorld();renderDiplomacy();
+}
+
+function addNews(message){
+world.news.unshift({message,date:gameDate()});
+world.news=world.news.slice(0,30);
+saveWorld();
+}
+
+function renderNews(){
+document.getElementById("newsList").innerHTML=
+world.news.map(n=>`<div class="row"><span>${n.message}</span><small>${n.date}</small></div>`).join("")||
+"<p>هنوز خبری ثبت نشده است.</p>";
+}
+
+function returnToSelection(){
+saveCountry();
+document.getElementById("game").classList.add("hidden");
+document.getElementById("selection").classList.remove("hidden");
+}
+
+function resetGame(){
+if(!confirm("تمام اطلاعات بازی در این مرورگر پاک شود؟"))return;
+localStorage.removeItem("won1936_country_"+selected);
+localStorage.removeItem("won1936_world");
+location.reload();
+}
+
+function init(){
+loadWorld();
+document.getElementById("countryChoices").innerHTML=countries.map(c=>
+`<div class="country" onclick="enterCountry('${c.name}')">
+<div style="font-size:32px">${c.flag}</div>
+<b>${c.name}</b>
+</div>`).join("");
+
+document.getElementById("mapCountries").innerHTML=countries.map(c=>
+`<div class="country"><div style="font-size:25px">${c.flag}</div>${c.name}</div>`
+).join("");
+}
+
+init();
+
+setInterval(()=>{
+if(data&&selected){
+calculateTime();
+render();
+}
+},60000);
+</script>
+</body>
+  </html>
+  
